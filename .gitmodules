@@ -1,0 +1,6 @@
+[submodule "dotvim/bundle/vim-powerline"]
+	path = dotvim/bundle/vim-powerline
+	url = git://github.com/Lokaltog/vim-powerline
+[submodule "dotvim/bundle/nerdtree"]
+	path = dotvim/bundle/nerdtree
+	url = git://github.com/scrooloose/nerdtree
