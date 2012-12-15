@@ -1,5 +1,4 @@
-set background=dark
-
+set background=light
 set nocompatible
 set ruler
 " tab conventions
@@ -63,28 +62,11 @@ if !exists("autocommands_loaded")
 endif
 
 
-if has("gui_running")
-	set background=light
-else
-	set background=dark
-endif
-
 syn on
 
 let c_syntax_for_h=1
 let c_space_errors=1
 let c_ansi_constants=1
-
-" hi Identifier guifg=#4080ff
-" hi Comment ctermfg=Grey guifg=#800080
-" hi Constant ctermfg=DarkCyan guifg=#006090
-" hi SpecialChar ctermfg=Cyan cterm=bold guifg=DarkCyan
-" hi Delimiter ctermfg=Red cterm=bold guifg=#ff0000 gui=bold
-" hi Statement ctermfg=Blue cterm=bold guifg=#0000ff gui=bold
-" hi PreProc ctermfg=Grey guifg=#800000
-" hi Type ctermfg=DarkGreen guifg=#008000 gui=bold
-" hi Todo ctermfg=Yellow ctermbg=Blue cterm=underline,bold gui=underline,bold
-" hi Operator ctermfg=Red cterm=bold guifg=#ff0000 gui=bold
 
 " Enable incremental searching and search highlighting.
 set incsearch
@@ -105,20 +87,6 @@ command! -nargs=* -complete=file PDiff :!g4 diff %
 " Useful commands.
 command! -nargs=0 CleanWhitespace :%s/\\s\\+$//g
 
-function! s:CheckOutFile()
-	if filereadable(expand("%")) && ! filewritable(expand("%"))
-		let s:pos = getpos('.')
-		let option = confirm("Readonly file, do you want to checkout from p4?"
-			\, "&Yes\n&No", 1, "Question")
-		if option == 1
-			PEdit
-		endif
-		edit!
-		call cursor(s:pos[1:3])
-	endif
-endfunction
-autocmd FileChangedRO * nested :call <SID>CheckOutFile()
-
 " Remember last cursor position
 if has("autocmd")
 	autocmd BufReadPost *
@@ -134,14 +102,16 @@ fu! AlternativeTabSettings()
 endfunction
 
 " Highlight past 80 characters as erroneous.
-autocmd VimEnter *.c,*.h,*.m,*.cxx,*.hxx,*.cc,*.hh,*.C,*.H,*.cpp,*.hpp,*.java set tw=80
-autocmd VimEnter *.c,*.h,*.m,*.cxx,*.hxx,*.cc,*.hh,*.C,*.H,*.cpp,*.hpp,*.java call matchadd('ErrorMsg', '\%>'.&l:textwidth.'v.\+', -1)
+autocmd VimEnter *.c,*.h,*.m,*.cxx,*.hxx,*.cc,*.hh,*.C,*.H,*.cpp,*.hpp set tw=80
+autocmd VimEnter *.c,*.h,*.m,*.cxx,*.hxx,*.cc,*.hh,*.C,*.H,*.cpp,*.hpp call matchadd('ErrorMsg', '\%>'.&l:textwidth.'v.\+', -1)
 "autocmd VimEnter *.c,*.h,*.m,*.cxx,*.hxx,*.cc,*.hh,*.C,*.H,*.cpp,*.hpp,*.java call matchadd('ErrorMsg', '^[ ]\+if.\+[^{|&]$', -1)
 " Highlight whitespace at end of line as erroneous.
 autocmd VimEnter * call matchadd('ErrorMsg', '[ \t]\+$')
 
-autocmd VimEnter ~/perforce/* call AlternativeTabSettings()
-autocmd VimEnter ~/source/* call AlternativeTabSettings()
+autocmd VimEnter ~/src/* call AlternativeTabSettings()
+
+autocmd vimenter * if !argc() | NERDTree | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 call pathogen#infect()
 set t_Co=256
