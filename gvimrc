@@ -1,5 +1,6 @@
+se gfn=Inconsolata\ Regular:h14
 "se gfn=PragmataPro:h18
-se gfn=M+\ 1mn\ regular:h15
+"se gfn=M+\ 1mn\ Medium\ 11
 "se gfn=Courier:h12
 
 set go-=T
