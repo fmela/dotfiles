@@ -8,14 +8,14 @@ export PS1='\[\033[01;33m\]\u@\h\[\033[01;35m\] \w \[\033[00m\]\$ '
 
 function elite2 {
 local GRAD1=`tty|cut -d/ -f3`
-#local COLOR1="\[\033[0;36m\]"
-#local COLOR2="\[\033[1;36m\]"
-local COLOR1="\[\033[0;33m\]"
-local COLOR2="\[\033[1;33m\]"
+local COLOR1="\[\033[0;36m\]"
+local COLOR2="\[\033[1;36m\]"
+#local COLOR1="\[\033[0;33m\]"
+#local COLOR2="\[\033[1;33m\]"
 local COLOR3="\[\033[1;37m\]"
 #local COLOR3="\[\033[1;30m\]"
 local COLOR4="\[\033[0m\]"
-PS1="$COLOR2($COLOR1\u@`hostname -s`$COLOR2)$COLOR1-$COLOR2($COLOR1\#$COLOR3/$COLOR1$GRAD1$COLOR2)$COLOR1-$COLOR2($COLOR1\$(date +%I:%M%p)$COLOR3:$COLOR1\$(date +%m/%d/%y)$COLOR2)\n$COLOR3$COLOR2($COLOR1\$$COLOR3:$COLOR1\w$COLOR2)$COLOR4 "
+PS1="$COLOR2($COLOR1\u@`hostname -s`$COLOR2)$COLOR1-$COLOR2($COLOR1\#$COLOR3/$COLOR1$GRAD1$COLOR2)$COLOR1-$COLOR2($COLOR1\$(date +%I:%M:%S%p)$COLOR3:$COLOR1\$(date +%m/%d/%y)$COLOR2)\n$COLOR3$COLOR2($COLOR1\$$COLOR3:$COLOR1\w$COLOR2)$COLOR4 "
 PS2="$COLOR2-$COLOR1=$COLOR3-$COLOR4 "
 }
 
@@ -25,10 +25,14 @@ alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 alias make='make -j8'
-alias top='top -o cpu'
 alias vi='vim'
-alias gvim=mvim
-alias gvimdiff=mvimdiff
+if [ $(uname) = "Darwin" ]; then
+    alias gvim=mvim
+    alias gvimdiff=mvimdiff
+    alias top='top -o cpu'
+else
+    alias ls='ls --color=auto'
+fi
 
 export P4CONFIG=.p4config
 export P4DIFF=p4diff
@@ -43,7 +47,7 @@ function mate { open -a /Applications/TextMate.app --args $@; }
 export PROMPT_DIRTRIM=3
 
 # Homebrew directories prepended to PATH
-for dir in ~/homebrew/bin ~/homebrew/sbin; do
+for dir in ~/homebrew/bin ~/homebrew/sbin ~/homebrew/Cellar/ruby/1.9.3-p327/bin; do
 	[ -d "$dir" ] && PATH="$dir:$PATH"
 done
 [ -d ~/homebrew/share/man ] && export MANPATH="$MANPATH:~/homebrew/share/man"
@@ -71,5 +75,6 @@ source ~/.bash_bookmarks
 export FIGNORE=.svn
 
 # Lastly, append ~/bin to PATH if it exists.
-[ -d "$HOME/bin" ] && PATH="$PATH:$HOME/bin"
-export PATH
+for dir in "$HOME/bin" "$HOME/src/Play20" "/usr/local/heroku/bin"; do
+    [ -d "$dir" ] && PATH="$PATH:$dir"
+done
