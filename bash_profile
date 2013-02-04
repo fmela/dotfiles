@@ -47,7 +47,7 @@ function mate { open -a /Applications/TextMate.app --args $@; }
 export PROMPT_DIRTRIM=3
 
 # Homebrew directories prepended to PATH
-for dir in ~/homebrew/bin ~/homebrew/sbin ~/homebrew/Cellar/ruby/1.9.3-p327/bin; do
+for dir in ~/homebrew/bin ~/homebrew/sbin ~/homebrew/Cellar/ruby/1.9.3-p374/bin; do
 	[ -d "$dir" ] && PATH="$dir:$PATH"
 done
 [ -d ~/homebrew/share/man ] && export MANPATH="$MANPATH:~/homebrew/share/man"
