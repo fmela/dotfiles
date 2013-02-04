@@ -11,8 +11,6 @@ set noexpandtab
 set tw=0
 " autoindent
 set ai
-" C indentation - this is instead done with an autocmd
-set cindent
 " indent options
 set cinoptions=(0u0
 " format options
