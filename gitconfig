@@ -1,0 +1,16 @@
+[user]
+	name = Farooq Mela
+	email = farooq.mela@gmail.com
+[color]
+	branch = auto
+	diff = auto
+	status = auto
+	ui = true
+[branch]
+	autosetuprebase = always
+[alias]
+	lg = log --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%ae>%Creset'
+	st = status -sb
+	standup = log --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cD) %C(bold blue)<%ae>%Creset' --since yesterday --author 'Farooq Mela'
+[core]
+	pager = less -r
