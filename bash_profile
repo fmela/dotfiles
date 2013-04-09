@@ -34,20 +34,13 @@ else
     alias ls='ls --color=auto'
 fi
 
-export P4CONFIG=.p4config
-export P4DIFF=p4diff
-export P4MERGE=p4merge
-
-alias pending_default="g4 pending -s localpath | grep -A100 '^Change default :' | grep `pwd` | awk '{print \$1}'"
-alias reopen_defaults="g4 list -s default | xargs g4 reopen -c"
-
 function mate { open -a /Applications/TextMate.app --args $@; }
 
 # Limit directories shown in prompt to 3 (requires bash 4).
 export PROMPT_DIRTRIM=3
 
 # Homebrew directories prepended to PATH
-for dir in ~/homebrew/bin ~/homebrew/sbin ~/homebrew/Cellar/ruby/1.9.3-p374/bin; do
+for dir in ~/homebrew/bin ~/homebrew/sbin; do
 	[ -d "$dir" ] && PATH="$dir:$PATH"
 done
 [ -d ~/homebrew/share/man ] && export MANPATH="$MANPATH:~/homebrew/share/man"
@@ -75,6 +68,12 @@ source ~/.bash_bookmarks
 export FIGNORE=.svn
 
 # Lastly, append ~/bin to PATH if it exists.
-for dir in "$HOME/bin" "$HOME/src/Play20" "/usr/local/heroku/bin"; do
+for dir in "$HOME/bin" "$HOME/src/Play20" # "/usr/local/heroku/bin"
+do
     [ -d "$dir" ] && PATH="$PATH:$dir"
 done
+
+# Forgot what this is for...
+export PYTHONPATH="$HOME/homebrew/lib/python2.7/site-packages"
+# Prevent the generation of .pyc files.
+export PYTHONDONTWRITEBYTECODE=1
