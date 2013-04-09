@@ -31,10 +31,6 @@ set showmode
 set showmatch
 "set this to always show status (IE. not running X)
 set laststatus=2
-"case insensitive matching
-set ignorecase
-"smart matching
-set smartcase
 "save automagically before things like :next and :make
 set autowrite
 "show partial command in status line
@@ -59,7 +55,6 @@ if !exists("autocommands_loaded")
 	auto BufNewFile,BufRead *.java set cindent
 endif
 
-
 syn on
 
 let c_syntax_for_h=1
@@ -69,6 +64,9 @@ let c_ansi_constants=1
 " Enable incremental searching and search highlighting.
 set incsearch
 set hlsearch
+" Use smart case matching.
+set ignorecase
+set smartcase
 
 au BufNewFile,BufRead *.cxx,*.hxx,*.cc,*.hh,*.C,*.cpp,*.hpp,*.H set cindent
 
@@ -77,10 +75,15 @@ set tags=tags;$HOME
 map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 
-" Perforce commands.
-command! -nargs=* -complete=file PEdit :!g4 edit %
-command! -nargs=* -complete=file PRevert :!g4 revert %
-command! -nargs=* -complete=file PDiff :!g4 diff %
+" Make j and k behave more reasonably on wrapped lines.
+nmap j gj
+nmap k gk
+
+" Make Control-E return to the last edited buffer.
+nmap <C-e> :e#<CR>
+
+" Make E toggle the NERDTree.
+nmap \e :NERDTreeToggle<CR><C-w>p
 
 " Useful commands.
 command! -nargs=0 CleanWhitespace :%s/\\s\\+$//g
@@ -108,9 +111,13 @@ autocmd VimEnter * call matchadd('ErrorMsg', '[ \t]\+$')
 
 autocmd VimEnter ~/src/* call AlternativeTabSettings()
 
-autocmd vimenter * if !argc() | NERDTree | endif
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+" Open NERDTree automatically when vim starts up if no files were specified.
+" autocmd vimenter * if !argc() | NERDTree | endif
 
-call pathogen#infect()
+" Quit if NERDTree is the only remaining window
+" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
 set t_Co=256
 let g:Powerline_symbols = 'fancy'
+
+call pathogen#infect()
