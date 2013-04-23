@@ -9,6 +9,7 @@
 [branch]
 	autosetuprebase = always
 [alias]
+	p = pull --rebase
 	lg = log --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%ae>%Creset'
 	st = status -sb
 	standup = log --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cD) %C(bold blue)<%ae>%Creset' --since yesterday --author 'Farooq Mela'
