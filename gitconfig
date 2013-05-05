@@ -6,8 +6,6 @@
 	diff = auto
 	status = auto
 	ui = true
-[branch]
-	autosetuprebase = always
 [alias]
 	p = pull --rebase
 	lg = log --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%ae>%Creset'
