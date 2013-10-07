@@ -7,7 +7,8 @@
 	status = auto
 	ui = true
 [alias]
-	p = pull --rebase
+	dif = diff
+	p = pull --rebase -v
 	lg = log --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%ae>%Creset'
 	st = status -sb
 	standup = log --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cD) %C(bold blue)<%ae>%Creset' --since yesterday --author 'Farooq Mela'
