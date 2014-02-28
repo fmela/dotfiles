@@ -53,6 +53,7 @@ if !exists("autocommands_loaded")
 	auto BufNewFile,BufRead *.cpp set cindent
 	auto BufNewFile,BufRead *.hpp set cindent
 	auto BufNewFile,BufRead *.java set cindent
+	auto BufNewFile,BufRead *.g4 set syntax=antlr
 endif
 
 syn on
@@ -103,8 +104,8 @@ fu! AlternativeTabSettings()
 endfunction
 
 " Highlight past 80 characters as erroneous.
-autocmd VimEnter *.c,*.h,*.m,*.cxx,*.hxx,*.cc,*.hh,*.C,*.H,*.cpp,*.hpp set tw=80
-autocmd VimEnter *.c,*.h,*.m,*.cxx,*.hxx,*.cc,*.hh,*.C,*.H,*.cpp,*.hpp call matchadd('ErrorMsg', '\%>'.&l:textwidth.'v.\+', -1)
+"autocmd VimEnter *.c,*.h,*.m,*.cxx,*.hxx,*.cc,*.hh,*.C,*.H,*.cpp,*.hpp set tw=80
+"autocmd VimEnter *.c,*.h,*.m,*.cxx,*.hxx,*.cc,*.hh,*.C,*.H,*.cpp,*.hpp call matchadd('ErrorMsg', '\%>'.&l:textwidth.'v.\+', -1)
 "autocmd VimEnter *.c,*.h,*.m,*.cxx,*.hxx,*.cc,*.hh,*.C,*.H,*.cpp,*.hpp,*.java call matchadd('ErrorMsg', '^[ ]\+if.\+[^{|&]$', -1)
 " Highlight whitespace at end of line as erroneous.
 autocmd VimEnter * call matchadd('ErrorMsg', '[ \t]\+$')

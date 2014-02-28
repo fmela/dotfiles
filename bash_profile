@@ -34,19 +34,17 @@ else
     alias ls='ls --color=auto'
 fi
 
-function mate { open -a /Applications/TextMate.app --args $@; }
-
 # Limit directories shown in prompt to 3 (requires bash 4).
 export PROMPT_DIRTRIM=3
 
 # Homebrew directories prepended to PATH
 for dir in ~/homebrew/bin ~/homebrew/sbin; do
-	[ -d "$dir" ] && PATH="$dir:$PATH"
+    [ -d "$dir" ] && PATH="$dir:$PATH"
 done
 [ -d ~/homebrew/share/man ] && export MANPATH="$MANPATH:~/homebrew/share/man"
 
 if [ -x /usr/local/scripts/ssx-agents ]; then
-	[ "$PS1" ] && eval `/usr/local/scripts/ssx-agents $SHELL`
+    [ "$PS1" ] && eval `/usr/local/scripts/ssx-agents $SHELL`
 fi
 
 # Bash Directory Bookmarks
@@ -67,13 +65,40 @@ source ~/.bash_bookmarks
 # FIGNORE is a colon-separated list of suffixes that autocomplete will ignore.
 export FIGNORE=.svn
 
+for dir in "$HOME/.cabal/bin" # "/usr/local/heroku/bin"
+do
+    [ -d "$dir" ] && PATH="$dir:$PATH"
+done
+
 # Lastly, append ~/bin to PATH if it exists.
-for dir in "$HOME/bin" "$HOME/src/Play20" # "/usr/local/heroku/bin"
+for dir in "$HOME/bin" # "/usr/local/heroku/bin"
 do
     [ -d "$dir" ] && PATH="$PATH:$dir"
 done
 
+# Jump around, jump around, jump up jump up and get down.
+export MARKPATH=$HOME/.marks
+function jump {
+  cd -P "$MARKPATH/$1" 2>/dev/null || echo "No such mark: $1"
+}
+function mark {
+  mkdir -p "$MARKPATH"; ln -s "$(pwd)" "$MARKPATH/$1"
+}
+function unmark {
+  rm -i "$MARKPATH/$1"
+}
+function marks {
+  \ls -l "$MARKPATH" | tail -n +2 | sed 's/  / /g' | cut -d' ' -f9- | awk -F ' -> ' '{printf "%-10s -> %s\n", $1, $2}'
+}
+function _jump {
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  local marks=$(find $MARKPATH -type l | awk -F '/' '{print $NF}')
+  COMPREPLY=($(compgen -W '${marks[@]}' -- "$cur"))
+  return 0
+}
+complete -o default -o nospace -F _jump jump
+
 # Forgot what this is for...
-export PYTHONPATH="$HOME/homebrew/lib/python2.7/site-packages"
+export PYTHONPATH="$HOME/homebrew/lib/python2.7/site-packages:$PYTHONPATH"
 # Prevent the generation of .pyc files.
 export PYTHONDONTWRITEBYTECODE=1
