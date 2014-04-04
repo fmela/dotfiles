@@ -41,7 +41,9 @@ export PROMPT_DIRTRIM=3
 for dir in ~/homebrew/bin ~/homebrew/sbin; do
     [ -d "$dir" ] && PATH="$dir:$PATH"
 done
-[ -d ~/homebrew/share/man ] && export MANPATH="$MANPATH:~/homebrew/share/man"
+for dir in ~/homebrew/share/man; do
+	[ -d "$dir" ] && MANPATH="$MANPATH:~/homebrew/share/man"
+done
 
 if [ -x /usr/local/scripts/ssx-agents ]; then
     [ "$PS1" ] && eval `/usr/local/scripts/ssx-agents $SHELL`
@@ -65,14 +67,12 @@ source ~/.bash_bookmarks
 # FIGNORE is a colon-separated list of suffixes that autocomplete will ignore.
 export FIGNORE=.svn
 
-for dir in "$HOME/.cabal/bin" # "/usr/local/heroku/bin"
-do
+for dir in "$HOME/.cabal/bin"; do
     [ -d "$dir" ] && PATH="$dir:$PATH"
 done
 
 # Lastly, append ~/bin to PATH if it exists.
-for dir in "$HOME/bin" # "/usr/local/heroku/bin"
-do
+for dir in "$HOME/bin"; do
     [ -d "$dir" ] && PATH="$PATH:$dir"
 done
 
